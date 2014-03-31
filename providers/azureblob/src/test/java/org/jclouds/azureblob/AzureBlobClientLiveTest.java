@@ -113,7 +113,7 @@ public class AzureBlobClientLiveTest extends BaseBlobStoreIntegrationTest {
    public void testCreatePublicContainer() throws Exception {
       boolean created = false;
       while (!created) {
-         publicContainer = prefix + new SecureRandom().nextInt();
+         publicContainer = (CONTAINER_PREFIX + new SecureRandom().nextInt());
          try {
             created = getApi().createContainer(publicContainer, withPublicAccess(PublicAccess.BLOB));
          } catch (UndeclaredThrowableException e) {
