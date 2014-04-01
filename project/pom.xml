@@ -100,7 +100,7 @@
   <distributionManagement>
     <site>
       <id>jclouds-github-pages-site</id>
-      <url>${maven.site.url.base}/${project.version}</url>
+      <url>${maven.site.url.base}/${project.version}/</url>
     </site>
   </distributionManagement>
 
@@ -716,7 +716,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.1</version>
+          <version>3.3</version>
           <configuration>
             <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
             <reportPlugins>
@@ -992,7 +992,7 @@
       <distributionManagement>
         <site>
           <id>jclouds-github-pages-site</id>
-          <url>${maven.site.url.base}/${project.version}/${project.artifactId}</url>
+          <url>${maven.site.url.base}/${project.version}/${project.artifactId}/</url>
         </site>
       </distributionManagement>
       <build>

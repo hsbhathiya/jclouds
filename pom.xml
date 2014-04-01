@@ -115,7 +115,15 @@
       </plugin>
     </plugins>
   </build>
-  
+
+  <!-- Maven generates incorrect links without the <site> declaration here -->
+  <distributionManagement>
+    <site>
+      <id>jclouds-github-pages-site</id>
+      <url>${maven.site.url.base}/${project.version}/${project.artifactId}/</url>
+    </site>
+  </distributionManagement>
+
   <profiles>
     <profile>
       <id>distribution</id>
