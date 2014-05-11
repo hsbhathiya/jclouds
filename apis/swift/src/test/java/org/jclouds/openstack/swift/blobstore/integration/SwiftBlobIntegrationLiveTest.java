@@ -92,7 +92,7 @@ public class SwiftBlobIntegrationLiveTest extends BaseBlobIntegrationTest {
    protected void checkContentDisposition(Blob blob, String contentDisposition) {
      // This works for Swift Server 1.4.4/SWauth 1.0.3 but was null in previous versions.
      // TODO: Better testing for the different versions.
-     super.checkContentDisposition(blob,contentDisposition);
+     super.checkContentDisposition(blob, contentDisposition);
    }
 
    // not supported in swift
@@ -183,7 +183,7 @@ public class SwiftBlobIntegrationLiveTest extends BaseBlobIntegrationTest {
       }
 
       File fileToUpload = new File("target/lots-of-const.txt");
-      Files.copy(temp, fileToUpload);
+      temp.copyTo(Files.asByteSink(fileToUpload));
 
       assertTrue(fileToUpload.length() > partSize);
       return fileToUpload;

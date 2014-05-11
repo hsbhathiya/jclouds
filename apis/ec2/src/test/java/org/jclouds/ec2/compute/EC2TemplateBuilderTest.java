@@ -172,7 +172,7 @@ public class EC2TemplateBuilderTest {
       
       // weird compilation error means have to declare extra generics for call to build() - see https://bugs.eclipse.org/bugs/show_bug.cgi?id=365818
       Supplier<LoadingCache<RegionAndName, ? extends Image>> imageCache = Suppliers.<LoadingCache<RegionAndName, ? extends Image>> ofInstance(
-               CacheBuilder.newBuilder().<RegionAndName,Image>build(CacheLoader.from(Functions.forMap(imageMap))));
+               CacheBuilder.newBuilder().<RegionAndName, Image>build(CacheLoader.from(Functions.forMap(imageMap))));
 
       Template template = newTemplateBuilder(images, imageCache).imageId("us-east-1/cc-image").build();
 
@@ -180,7 +180,7 @@ public class EC2TemplateBuilderTest {
       assertEquals(template.getImage().getId(), "us-east-1/cc-image");
    }
 
-   @Test(expectedExceptions={NoSuchElementException.class})
+   @Test(expectedExceptions = {NoSuchElementException.class})
    public void testNegativeTemplateChoiceForInstanceByImageId() throws Exception {
       newTemplateBuilder().imageId("wrongregion/wrongimageid").build();
    }
@@ -202,7 +202,7 @@ public class EC2TemplateBuilderTest {
       @SuppressWarnings("unchecked")
       ImmutableMap<RegionAndName, Image> imageMap = (ImmutableMap<RegionAndName, Image>) ImagesToRegionAndIdMap.imagesToMap(images.get());
       Supplier<LoadingCache<RegionAndName, ? extends Image>> imageCache = Suppliers.<LoadingCache<RegionAndName, ? extends Image>> ofInstance(
-               CacheBuilder.newBuilder().<RegionAndName,Image>build(CacheLoader.from(Functions.forMap(imageMap))));
+               CacheBuilder.newBuilder().<RegionAndName, Image>build(CacheLoader.from(Functions.forMap(imageMap))));
 
       return newTemplateBuilder(images, imageCache);
    }
@@ -222,7 +222,7 @@ public class EC2TemplateBuilderTest {
       Supplier<Set<? extends Hardware>> sizes = Suppliers.<Set<? extends Hardware>> ofInstance(ImmutableSet
                .<Hardware> of(t1_micro().build(), c1_medium().build(), c1_xlarge().build(), m1_large().build(),
                         m1_small().build(), m1_xlarge().build(), m2_xlarge().build(), m2_2xlarge().build(),
-			      m2_4xlarge().build(),g2_2xlarge().build(),CC1_4XLARGE));
+			      m2_4xlarge().build(), g2_2xlarge().build(), CC1_4XLARGE));
 
       return new EC2TemplateBuilderImpl(locations, images, sizes, Suppliers.ofInstance(location), optionsProvider,
                templateBuilderProvider, imageCache) {

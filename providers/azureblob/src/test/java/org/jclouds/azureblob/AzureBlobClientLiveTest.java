@@ -87,9 +87,13 @@ public class AzureBlobClientLiveTest extends BaseBlobStoreIntegrationTest {
    public void testCreateContainer() throws Exception {
       boolean created = false;
       while (!created) {
+<<<<<<< HEAD
 
          privateContainer = CONTAINER_PREFIX + new SecureRandom().nextInt();
 
+=======
+         privateContainer = CONTAINER_PREFIX + new SecureRandom().nextInt();
+>>>>>>> upstream/master
          try {
             created = getApi().createContainer(privateContainer, withMetadata(ImmutableMultimap.of("foo", "bar")));
          } catch (UndeclaredThrowableException e) {
@@ -355,9 +359,13 @@ public class AzureBlobClientLiveTest extends BaseBlobStoreIntegrationTest {
 
    @Test(timeOut = 5 * 60 * 1000)
    public void testBlockOperations() throws Exception {
+<<<<<<< HEAD
 
       String blockContainer = CONTAINER_PREFIX + new SecureRandom().nextInt();
 
+=======
+      String blockContainer = CONTAINER_PREFIX + new SecureRandom().nextInt();
+>>>>>>> upstream/master
       String blockBlob = "myblockblob-" + new SecureRandom().nextInt();
       String A = "A";
       String B = "B";

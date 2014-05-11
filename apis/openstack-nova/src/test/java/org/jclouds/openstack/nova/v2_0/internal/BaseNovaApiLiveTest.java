@@ -19,6 +19,10 @@ package org.jclouds.openstack.nova.v2_0.internal;
 import java.util.Properties;
 import java.util.Set;
 
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import org.jclouds.apis.BaseApiLiveTest;
 import org.jclouds.openstack.keystone.v2_0.config.KeystoneProperties;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
@@ -35,9 +39,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Ordering;
 
 /**
  * Tests behavior of {@code NovaApi}
@@ -46,7 +47,7 @@ import com.google.common.collect.Ordering;
  */
 @Test(groups = "live")
 public class BaseNovaApiLiveTest extends BaseApiLiveTest<NovaApi> {
-   protected String hostName = System.getProperty("user.name").replace('.','-').toLowerCase();
+   protected String hostName = System.getProperty("user.name").replace('.', '-').toLowerCase();
 
    public BaseNovaApiLiveTest() {
       provider = "openstack-nova";
@@ -58,7 +59,15 @@ public class BaseNovaApiLiveTest extends BaseApiLiveTest<NovaApi> {
    @Override
    public void setup() {
       super.setup();
-      zones = api.getConfiguredZones();
+
+      String testZone = System.getProperty("test." + provider + ".zone");
+
+      if (testZone != null) {
+         zones = ImmutableSet.of(testZone);
+      } else {
+         zones = api.getConfiguredZones();
+      }
+
       for (String zone : zones) {
          ServerApi serverApi = api.getServerApiForZone(zone);
          for (Resource server : serverApi.list().concat()) {
@@ -83,7 +92,7 @@ public class BaseNovaApiLiveTest extends BaseApiLiveTest<NovaApi> {
       return serverApi.get(server.getId());
    }
 
-   /** 
+   /**
     * Will block until the requested server is in the correct state, if Extended Server Status extension is loaded
     * this will continue to block while any task is in progress.
     */
@@ -100,10 +109,12 @@ public class BaseNovaApiLiveTest extends BaseApiLiveTest<NovaApi> {
          }
       }
    }
-   
+
    protected String imageIdForZone(String zoneId) {
       ImageApi imageApi = api.getImageApiForZone(zoneId);
-      return Iterables.getLast(imageApi.list().concat()).getId();
+
+      // Get the first image from the list as it tends to be "lighter" and faster to start
+      return Iterables.get(imageApi.list().concat(), 0).getId();
    }
 
    protected String flavorRefForZone(String zoneId) {

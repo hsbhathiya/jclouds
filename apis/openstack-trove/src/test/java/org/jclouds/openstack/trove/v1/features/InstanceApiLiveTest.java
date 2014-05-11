@@ -44,13 +44,13 @@ import com.google.common.collect.Maps;
 @Test(groups = "live", testName = "InstanceApiLiveTest")
 public class InstanceApiLiveTest extends BaseTroveApiLiveTest {
 
-    private static Map<String,List<Instance>> created = Maps.newHashMap();
+    private static Map<String, List<Instance>> created = Maps.newHashMap();
     
     @Override
     @BeforeClass(groups = { "integration", "live" })
     public void setup() {
         super.setup();
-        TroveUtils utils= new TroveUtils(api);
+        TroveUtils utils = new TroveUtils(api);
         for (String zone : api.getConfiguredZones()) {
             List<Instance> zoneList = Lists.newArrayList();
             InstanceApi instanceApi = api.getInstanceApiForZone(zone);
@@ -67,8 +67,8 @@ public class InstanceApiLiveTest extends BaseTroveApiLiveTest {
     public void tearDown(){
         for (String zone : api.getConfiguredZones()) {
             InstanceApi instanceApi = api.getInstanceApiForZone(zone);
-            for(Instance instance : created.get(zone)){
-                if( !instanceApi.delete(instance.getId() ) )
+            for (Instance instance : created.get(zone)){
+                if (!instanceApi.delete(instance.getId()))
                     throw new RuntimeException("Could not delete a database instance after tests!");
             }
         }
